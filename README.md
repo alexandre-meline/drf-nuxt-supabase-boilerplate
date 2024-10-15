@@ -74,10 +74,10 @@ To correctly set up this project, follow these steps:
     TIME_ZONE=Europe/Paris
 
     # Database
-    DATABASE_URL=postgresql://postgres.yexfpnksfcgbajjnzbbc:.UgL!@a*Z7VrYLt@aws-0-us-east-1.pooler.supabase.com:6543/postgres
+    DATABASE_URL=postgresql://
 
     # Authentification: Supabase JWT secret for decode JWT token from Supabase
-    SUPABASE_JWT_SECRET=uV1qr0hTLy6k3yjz+ivQpdfO+unGHcl6BGKHtX94WKFXz3YRijqbw7RCF7j9ma+r3+wmUUtUuPmTvQttyvUTuA==
+    SUPABASE_JWT_SECRET=uV1qr0hTLy6k3yjz+$==
 
     # Redis: cache
     REDIS_CACHE_URL=redis://127.0.0.1:6379/1
