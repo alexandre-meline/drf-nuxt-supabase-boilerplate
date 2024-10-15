@@ -8,6 +8,7 @@ include(
     'cache.py',
     'celery.py',
     'documentation.py',
+    'frontend.py',
     'internationalization.py',
     'logging.py',
     'middleware.py',
