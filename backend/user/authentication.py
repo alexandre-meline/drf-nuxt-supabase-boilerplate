@@ -6,43 +6,39 @@ from .models import User
 
 class JWTAuthentication(authentication.BaseAuthentication):
     """
-    Classe d'authentification pour la gestion des JWT.
-
-    Cette classe est conçue pour extraire et valider les JWT des en-têtes d'autorisation
-    des requêtes HTTP, décoder ces tokens pour extraire les informations utilisateur, 
-    et retourner un utilisateur authentifié si les validations échouent.
+    Authentication class for JWT management.
+    This class is designed to extract and validate JWTs from authorisation headers
+    from HTTP requests, decode these tokens to extract user information 
+    and return an authenticated user if validations fail.
     
-    Méthodes principales:
+    Main methods:
     
-    - authenticate(request): Extrait et vérifie le format du JWT dans l'en-tête 
-      HTTP. Appelle _authenticate_credentials avec le token extrait s'il est présent.
+    - authenticate(request): Extracts and checks the format of the JWT in the 
+      HTTP HEADER. Calls _authenticate_credentials with the extracted token if present.
       
-    - _authenticate_credentials(token): Décodage du JWT pour vérifier l'utilisateur.
-      Utilise le cache pour optimiser les recherches répétées. Lève des exceptions 
-      en cas d'échec de la vérification.
-
-    Détails des Erreurs:
+    - _authenticate_credentials(token): Decodes the JWT to verify the user.
+      Uses cache to optimise repeated searches. Throws exceptions 
+      if verification fails.
+    Details of Errors:
     
-    - AuthenticationFailed: Est levée si le token est mal formé, expiré, ou 
-      invalide, ou si l'utilisateur correspondant n'est pas trouvé dans la base 
-      de données.
+    - AuthenticationFailed: Raised if the token is incorrectly formed, expired, or 
+      invalid, or if the corresponding user is not found in the database. 
+      database.
 
-    Utilisation typique:
-    Implémenter ce middleware dans votre pipeline d'authentification REST framework 
-    pour gérer la sécurisation des endpoints à l'aide de JWT fournis par 
-    le système d'authentification de Supabase.
-    - En utilisant: 'DEFAULT_AUTHENTICATION_CLASSES': (
-                        'user.authentication.JWTAuthentication',
+    Typical use:
+    Implement this middleware in your REST framework authentication pipeline 
+    to manage endpoint security using JWT provided by 
+    the Supabase authentication system.
+    - Using: ‘DEFAULT_AUTHENTICATION_CLASSES’: (
+                        user.authentication.JWTAuthentication',
                     ),
     """
     def authenticate(self, request):
-        # Obtient le header d'authentification
         auth_header = request.headers.get('Authorization')
 
         if not auth_header:
             return None
 
-        # Valide le format du header
         try:
             # Expected Header: "Bearer <token>"
             prefix, token = auth_header.split(' ')
@@ -65,12 +61,9 @@ class JWTAuthentication(authentication.BaseAuthentication):
            
            user_id = payload.get('sub')
 
-           # Vérifier si l'utilisateur est déjà dans le cache
            user = cache.get(user_id)
            if not user:
-               # Si non dans le cache, récupérer depuis la base de données
                user = User.objects.get(id=user_id)
-               # Mettre l'utilisateur en cache pour un certain temps (ex : 300 secondes)
                cache.set(user_id, user, timeout=300)
 
        except jwt.ExpiredSignatureError:
