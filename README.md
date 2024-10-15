@@ -8,7 +8,7 @@ This Django project is designed to manage user profiles and their service subscr
 
 - **User Profile Management:** Model user profiles with the ability to store names and manage authentication.
   
-- **Subscription Tracking:** Manage user subscriptions, integrated with Stripe to handle subscriptions, customers, and current periods.
+- **Subscription Tracking:** Read user subscriptions, integrated with Stripe to handle subscriptions, customers, and current periods.
 
 - **Supabase Integration:** Access and manipulate data via a connection to a Supabase database, leveraging PostgreSQL's capabilities to scale ETL processes.
 
@@ -57,36 +57,28 @@ To correctly set up this project, follow these steps:
    Create a `.env` file from the example, and set up your Supabase database and other secrets.
 
    ```text
-    # Debug mode
+    # Backend: Django Rest Framework
     DEBUG=True
-
-    # Using SQLite
-    USE_SQLITE=True
-
-    # Secret key 
-    # Create secret key use this command: python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'
-    SECRET_KEY=h1s6mqcuiwb+dqib@(v3yjwo)@t6%y_%+rh79(p6%@5qkco805
-
-    # Language code 
-    LANGUAGE_CODE=fr-FR
-
-    # Time zone
+    USE_SQLITE=False
+    SECRET_KEY=h1s6mqcuiwb+dqib@(v3yjwo)@t6%y_%+rh79(p6%@5qkco805 # Create secret key use this command: make gen-secret-key
+    LANGUAGE_CODE=en-us
     TIME_ZONE=Europe/Paris
-
-    # Database
+    
+    # Database: PostgreSQL
     DATABASE_URL=postgresql://
-
-    # Authentification: Supabase JWT secret for decode JWT token from Supabase
-    SUPABASE_JWT_SECRET=uV1qr0hTLy6k3yjz+$==
-
-    # Redis: cache
+    
+    # Redis
     REDIS_CACHE_URL=redis://127.0.0.1:6379/1
-
-    # Broker worker celery
+    
+    # Celery
     CELERY_BROKER_URL=redis://127.0.0.1:6379/2
-
-    # Result backend celery methodes: use django-db for save result in database
     CELERY_RESULT_BACKEND=django-db
+    
+    # Authentification: Supabase JWT secret for decode JWT token from Supabase
+    SUPABASE_JWT_SECRET=uV1qr0hTLy6k3yjz==
+
+    # Frontend
+    FRONTEND_URL=http://localhost:3000
    ```
 
 5. **Run Migrations**
