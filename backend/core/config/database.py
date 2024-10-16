@@ -4,7 +4,7 @@ from .base import env
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-if env.bool('USE_SQLITE'):
+if env.bool('USE_SQLITE', default=True):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',

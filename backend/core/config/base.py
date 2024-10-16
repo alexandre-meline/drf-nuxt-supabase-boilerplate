@@ -12,7 +12,13 @@ env = environ.Env(
     DEBUG=(bool, False)
 )
 
-environ.Env.read_env(os.path.join(BASE_DIR, '.env.local' if env('DEBUG') else '.env'))
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+if env.str('ENVIRONMENT') == 'dev':
+    environ.Env.read_env(os.path.join(BASE_DIR, '.env.dev'))
+elif env.str('ENVIRONMENT') == 'prod':
+    environ.Env.read_env(os.path.join(BASE_DIR, '.env.prod'))
+else:
+    raise ValueError('Invalid environment name used in ENVIRONMENT variable in .env file')
 
 ALLOWED_HOSTS = splitting_var_env(env('ALLOWED_HOSTS'))
 
