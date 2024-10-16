@@ -37,7 +37,7 @@ env/
 .venv/
 ENV.bak/
 venv.bak/
-.env
+.env.local
 
 # IDEs/Editors
 .idea/

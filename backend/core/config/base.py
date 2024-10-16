@@ -2,6 +2,7 @@ from __future__ import annotations
 import os
 import environ
 from pathlib import Path
+from core.utils import splitting_var_env
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -13,7 +14,7 @@ env = environ.Env(
 
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = splitting_var_env(env('ALLOWED_HOSTS'))
 
 ROOT_URLCONF = 'core.urls'
 
