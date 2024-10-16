@@ -21,7 +21,12 @@ _api_apps_v1 = [
 
 ]
 
+_api_version = [
+    path('v1/', include((_api_apps_v1, 'api'), namespace='v1')),
+]
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/', include((_api_version, 'api'), namespace='api')),
     # *_api_apps_v1,
 ]
