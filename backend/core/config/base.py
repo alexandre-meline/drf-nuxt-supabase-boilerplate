@@ -12,7 +12,7 @@ env = environ.Env(
     DEBUG=(bool, False)
 )
 
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+environ.Env.read_env(os.path.join(BASE_DIR, '.env.local' if env('DEBUG') else '.env'))
 
 ALLOWED_HOSTS = splitting_var_env(env('ALLOWED_HOSTS'))
 
