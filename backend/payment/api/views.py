@@ -177,8 +177,8 @@ class UserSubscriptionStatusView(APIView):
                 'stripe_customer_id', 'stripe_price_id'
             ).get(user_id=user.id)
         except ObjectDoesNotExist:
-            cache.set(cache_key, False, timeout=60*2)  # En cache la réponse négative pour 2 minutes
-            return Response({'isSubscribed': False})
+            cache.set(cache_key, False, timeout=60*2)
+            return Response({'subscribed': False})
         except Exception as e:
             print('Error fetching user subscription:', e)
             raise APIException('Internal Server Error')
@@ -188,8 +188,7 @@ class UserSubscriptionStatusView(APIView):
             user_subscription.stripe_current_period_end
         )
 
-        # En cache le résultat pour les futurs appels (ex. 5 minutes)
-        cache.set(cache_key, is_valid, timeout=60*5)
+        cache.set(cache_key, is_valid, timeout=60*2)
 
         return Response({'subscribed': is_valid}, status=200)
 
