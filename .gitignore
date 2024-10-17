@@ -81,3 +81,6 @@ poetry.lock
 
 # Sqlite
 *.sqlite3
+
+# Drawio
+*.drawio

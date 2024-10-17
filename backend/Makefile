@@ -135,6 +135,15 @@ py-clean-pycache:
 	find . -type f -name "*.pyo" -delete;
 	@echo "Cleanup complete."
 
+# Supabase commands ------------------------------------------------
+sb-webhook-key:
+	@echo ""
+	@echo "[Supabase webhook] Add 'X-Supabase-Secret' key to the webhook request headers."
+	@echo "[Supabase webhook] Copy/paste the following key in the Supabase dashboard under the Webhooks section."
+	@echo "[Django env] Copy/paste the following key in the 'SUPABASE_WEBHOOK_SECRET' environment variable."
+	@echo ""
+	openssl rand -hex 32
+
 # Environment commands ---------------------------------------------
 env-activate-poetry:
 	poetry shell
