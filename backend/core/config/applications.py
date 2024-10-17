@@ -3,6 +3,7 @@ from __future__ import annotations
 # Application definition
 _INTERNAL_APPS = [
     'user',
+    'payment',
 ]
 
 _THIRD_PARTY_APPS = [
