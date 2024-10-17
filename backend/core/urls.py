@@ -19,6 +19,7 @@ from django.urls import path, include
 
 _api_apps_v1 = [
     path('user/', include('user.api.urls')),
+    path('payment/', include('payment.api.urls')),
 ]
 
 urlpatterns = [

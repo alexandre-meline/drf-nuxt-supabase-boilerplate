@@ -18,6 +18,7 @@ if env.str('ENVIRONMENT') == 'dev':
         'rest.py',
         'security.py',
         'supabase.py',
+        'stripe.py',
     )
 elif env.str('ENVIRONMENT') == 'prod':
     print('Environment is prod')
@@ -35,6 +36,7 @@ elif env.str('ENVIRONMENT') == 'prod':
         'rest.py',
         'security.py',
         'supabase.py',
+        'stripe.py',
         'sentry.py',
     )
 else:
