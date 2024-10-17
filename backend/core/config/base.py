@@ -13,9 +13,9 @@ env = environ.Env(
 )
 
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
-if env.str('ENVIRONMENT') == 'dev':
+if env.str('ENVIRONMENT') == 'dev' or env.str('ENVIRONMENT') == 'development':
     environ.Env.read_env(os.path.join(BASE_DIR, '.env.dev'))
-elif env.str('ENVIRONMENT') == 'prod':
+elif env.str('ENVIRONMENT') == 'prod' or env.str('ENVIRONMENT') == 'production':
     environ.Env.read_env(os.path.join(BASE_DIR, '.env.prod'))
 else:
     raise ValueError('Invalid environment name used in ENVIRONMENT variable in .env file')

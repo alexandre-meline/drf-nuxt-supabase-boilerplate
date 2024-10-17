@@ -4,12 +4,16 @@ from __future__ import annotations
 _INTERNAL_APPS = [
     'user',
     'payment',
+    # Add the following internal apps
+    # ...
 ]
 
 _THIRD_PARTY_APPS = [
     'rest_framework',
     'django_celery_beat',
     'django_celery_results',
+    # Add the following third-party apps
+    # ...
 ]
 
 INSTALLED_APPS = [

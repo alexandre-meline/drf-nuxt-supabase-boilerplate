@@ -1,10 +1,11 @@
 amqp==5.2.0
 asgiref==3.8.1
 async-timeout==4.0.3
--e git+https://github.com/alexandre-meline/drf-nuxt-supabase-boilerplate.git@13528b5ae0180f44d59ebff5b6ed2eaddc4e8799#egg=backend
+-e git+https://github.com/alexandre-meline/drf-nuxt-supabase-boilerplate.git@32c602ed9c8fdd0b10f5205c43f1650b7e49cf79#egg=backend
 billiard==4.2.1
 celery==5.4.0
 certifi==2024.8.30
+charset-normalizer==3.4.0
 click==8.1.7
 click-didyoumean==0.3.1
 click-plugins==1.1.1
@@ -20,6 +21,7 @@ django-split-settings==1.3.2
 django-timezone-field==7.0
 djangorestframework==3.15.2
 gunicorn==23.0.0
+idna==3.10
 kombu==5.4.2
 Markdown==3.7
 packaging==24.1
@@ -30,10 +32,13 @@ PyJWT==2.9.0
 python-crontab==3.2.0
 python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
+pytz==2024.2
 redis==5.1.1
+requests==2.32.3
 sentry-sdk==2.16.0
 six==1.16.0
 sqlparse==0.5.1
+stripe==11.1.0
 typing_extensions==4.12.2
 tzdata==2024.2
 urllib3==2.2.3
