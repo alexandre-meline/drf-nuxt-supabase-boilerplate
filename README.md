@@ -4,6 +4,8 @@
 
 This Django project is designed to manage user profiles and their service subscriptions using data stored in a Supabase database. The main goal is to efficiently handle user information and subscription details linked to Stripe, while facilitating integration with other backend or frontend systems such as Nuxt.js applications utilizing the same data backend.
 
+![Architecture](assets/authentication_workflow.drawio.png)
+
 ## ✨ Features
 
 - **User Profile Management:** Model user profiles with the ability to store names and manage authentication.
