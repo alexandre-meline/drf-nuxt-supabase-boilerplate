@@ -4,9 +4,7 @@ import uuid
 
 class UserSubscription(models.Model):
     """
-    Model for reading user subscriptions, synchronised with ‘UserSubscription’ in Supabase.
-    Fields are mapped directly to columns in the Supabase table and subscription management is handled on the client side.
-    client side.
+    This model represents a user Stripe subscription in the database.
     
     Fields:
     - id: Unique identifier for each subscription, used as primary key.

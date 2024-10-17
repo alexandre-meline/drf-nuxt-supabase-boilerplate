@@ -9,6 +9,10 @@ from django.utils import timezone
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
 from payment.models import UserSubscription
+from .serializers import (
+    UserSubscriptionSerializer, 
+    UserSubscriptionStatusSerializer
+    )
 from core.utils import splitting_var_env
 from rest_framework.permissions import (
     IsAuthenticated,
@@ -19,6 +23,7 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 class UserSubscriptionView(APIView):
+    serializer = UserSubscriptionSerializer
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
@@ -44,8 +49,8 @@ class UserSubscriptionView(APIView):
                 customer=user_subscription.stripe_customer_id,
                 return_url=returnUrl
             )
-
-            return Response({'url': stripe_session.url}, status=200)
+            serializer = self.serializer({'url': stripe_session.url})
+            return Response(serializer.data, status=200)
 
         stripe_session = stripe.checkout.Session.create(
             success_url=successUrl,
@@ -65,8 +70,9 @@ class UserSubscriptionView(APIView):
                 'user_id': str(user.id),
             }
         )
+        serializer = self.serializer({'url': stripe_session.url})
 
-        return Response({'url': stripe_session.url}, status=200)
+        return Response(serializer.data, status=200)
     
 
 class StripeWebhookView(APIView):
@@ -160,6 +166,7 @@ class StripeWebhookView(APIView):
 DAY_IN_MS = 86400000  # Miliseconds in a day
 
 class UserSubscriptionStatusView(APIView):
+    serializer = UserSubscriptionStatusSerializer
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
@@ -169,7 +176,9 @@ class UserSubscriptionStatusView(APIView):
         # Vérifier si résult est en cache
         cached_result = cache.get(cache_key)
         if cached_result is not None:
-            return Response({'subscribed': cached_result}, status=200)
+            serializer = UserSubscriptionStatusSerializer(data={'subscribed': cached_result})
+            if serializer.is_valid():
+                return Response(serializer.data, status=200)
 
         try:
             user_subscription = UserSubscription.objects.only(
@@ -190,7 +199,9 @@ class UserSubscriptionStatusView(APIView):
 
         cache.set(cache_key, is_valid, timeout=60*2)
 
-        return Response({'subscribed': is_valid}, status=200)
+        serializer = UserSubscriptionStatusSerializer(data={'subscribed': is_valid})
+        if serializer.is_valid():
+            return Response(serializer.data, status=200)
 
     def is_valid_subscription(self, stripe_price_id, stripe_current_period_end):
         if not stripe_price_id or not stripe_current_period_end:
