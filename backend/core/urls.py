@@ -17,16 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+
 _api_apps_v1 = [
-
-]
-
-_api_version = [
-    path('v1/', include((_api_apps_v1, 'api'), namespace='v1')),
+    path('user/', include('user.api.urls')),
 ]
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include((_api_version, 'api'), namespace='api')),
+    path('api/v1/', include(_api_apps_v1)),
     # *_api_apps_v1,
 ]

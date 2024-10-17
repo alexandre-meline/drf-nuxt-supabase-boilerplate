@@ -1,39 +1,33 @@
+import uuid
 from django.db import models
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 
-class User(models.Model):
-    """
-    Representation of the user model aligned with the ‘profiles’ table in Supabase.
-    
-    Fields:
-    - id: Primary, unmodifiable UUIDField used to uniquely identify each user.
-    - first_name: Optional CharField for the user's first name.
-    - last_name: Optional charField for the user's surname.
-    
-    Meta:
-    - db_table: Exact name of the table in Supabase.
-    - managed: Set to False to not include this model in Django managed migrations.
-    
-    Properties:
-    - is_authenticated: Always true, indicating that the user is authenticated in the context of Django permissions.
-    
-    Typical usage:
-    Used to identify users, primarily in authentication contexts with easy integration into external systems such as Supabase Auth.
+class CustomUserManager(BaseUserManager):
+    def create_user(self, email, password=None, **extra_fields):
+        if not email:
+            raise ValueError('Email is required')
+        email = self.normalize_email(email)
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
 
-    """
-    id = models.UUIDField(primary_key=True, editable=False)
-    first_name = models.CharField(max_length=100, blank=True, null=True)
-    last_name = models.CharField(max_length=100, blank=True, null=True)
-    email = models.EmailField(max_length=100)
+    def create_superuser(self, email, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        return self.create_user(email, password, **extra_fields)
 
-    class Meta:
-        db_table = 'profiles'
-        managed = False
+class CustomUser(AbstractBaseUser):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    email = models.EmailField(unique=True)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+
+    objects = CustomUserManager()
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
 
     def __str__(self):
-        return str(self.id)
-
-    @property
-    def is_authenticated(self):
-        return True
-    
+        return self.email
